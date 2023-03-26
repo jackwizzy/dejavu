@@ -134,11 +134,13 @@ class Dejavu:
             print(f"{song_name} already fingerprinted, continuing...")
         else:
             song_name, hashes, file_hash = Dejavu._fingerprint_worker(
-                file_path,
-                self.limit,
+                (file_path,
+                self.limit,),
                 song_name=song_name
             )
-            sid = self.db.insert_song(song_name, file_hash)
+            # debug
+            # print(f'song name {song_name}\n\n{hashes}\n\n{file_hash}')
+            sid = self.db.insert_song(song_name, file_hash, 1)
 
             self.db.insert_hashes(sid, hashes)
             self.db.set_song_fingerprinted(sid)
@@ -226,7 +228,7 @@ class Dejavu:
         return r.recognize(*options, **kwoptions)
 
     @staticmethod
-    def _fingerprint_worker(arguments):
+    def _fingerprint_worker(arguments, song_name: str = None):
         # Pool.imap sends arguments as tuples so we have to unpack
         # them ourself.
         try:
@@ -234,7 +236,7 @@ class Dejavu:
         except ValueError:
             pass
 
-        song_name, extension = os.path.splitext(os.path.basename(file_name))
+        song_name, extension = os.path.splitext(os.path.basename(file_name)) if song_name is None else song_name, None
 
         fingerprints, file_hash = Dejavu.get_file_fingerprints(file_name, limit, print_output=True)
 
