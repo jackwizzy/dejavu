@@ -1,7 +1,8 @@
-pydub==0.23.1
-PyAudio
-numpy
-scipy
-matplotlib
+matplotlib==3.8.4
 mysql-connector-python==8.0.17
-psycopg2
+numpy==1.26.3
+psycopg2-binary==2.9.9
+pymongo==4.3.3
+PyAudio==0.2.13
+pydub==0.23.1
+scipy=1.13.0
