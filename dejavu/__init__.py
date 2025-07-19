@@ -200,13 +200,14 @@ class Dejavu:
             song = self.db.get_song_by_id(song_id)
 
             song_name = song.get(SONG_NAME, None)
+            print(song_name)
             song_hashes = song.get(FIELD_TOTAL_HASHES, None)
             nseconds = round(float(offset) / DEFAULT_FS * DEFAULT_WINDOW_SIZE * DEFAULT_OVERLAP_RATIO, 5)
             hashes_matched = dedup_hashes[song_id]
 
             song = {
                 SONG_ID: song_id,
-                SONG_NAME: song_name.encode("utf8"),
+                SONG_NAME: ''.join(song_name).encode("utf8"),
                 INPUT_HASHES: queried_hashes,
                 FINGERPRINTED_HASHES: song_hashes,
                 HASHES_MATCHED: hashes_matched,
